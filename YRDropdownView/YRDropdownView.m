@@ -27,7 +27,6 @@
 
 @interface YRDropdownView ()
 
-@property (nonatomic, strong) UIImage *accessoryImage;
 @property (nonatomic) float minHeight;
 @property (nonatomic) SEL onTouch;
 @property (nonatomic) BOOL shouldAnimate;
@@ -57,13 +56,8 @@
 @implementation YRDropdownView
 
 @synthesize minHeight = _minHeight;
-@synthesize accessoryImage = _accessoryImage;
 @synthesize onTouch = _onTouch;
-@synthesize isView = _isView;
-@synthesize dropdownHeight = _dropdownHeight;
 @synthesize shouldAnimate = _shouldAnimate;
-@synthesize hideAfter = _hideAfter;
-@synthesize parentView = _parentView;
 @synthesize backgroundColors = _backgroundColors;
 @synthesize backgroundColorPositions = _backgroundColorPositions;
 @synthesize titleTextColor = _titleTextColor;
@@ -73,6 +67,12 @@
 
 @synthesize titleLabel = _titleLabel;
 @synthesize detailLabel = _detailLabel;
+@synthesize accessoryView = _accessoryView;
+
+@synthesize parentView = _parentView;
+@synthesize hideAfter = _hideAfter;
+@synthesize isView = _isView;
+@synthesize dropdownHeight = _dropdownHeight;
 
 //Using this prevents two alerts to ever appear on the screen at the same time
 static YRDropdownView *currentDropdown = nil;
