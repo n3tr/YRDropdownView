@@ -76,12 +76,18 @@
 
 //Using this prevents two alerts to ever appear on the screen at the same time
 static YRDropdownView *currentDropdown = nil;
-static NSMutableArray *yrQueue = nil; // for queueing - danielgindi@gmail.com
+static NSMutableArray *viewQueue = nil; // for queuing - danielgindi@gmail.com
 static BOOL isRtl = NO; // keep rtl property here - danielgindi@gmail.com
+static BOOL isQueuing = NO; // keep queuing property here - gregwym
 
-+ (void)setRtl:(BOOL)rtl;
++ (void)toggleRtl:(BOOL)rtl;
 {
     isRtl = rtl;
+}
+
++ (void)toggleQueuing:(BOOL)queuing
+{
+	isQueuing = queuing;
 }
 
 #pragma mark - Accessors
@@ -228,8 +234,8 @@ static BOOL isRtl = NO; // keep rtl property here - danielgindi@gmail.com
 #pragma mark - Defines
 
 #define HORIZONTAL_PADDING 15.0f
-#define VERTICAL_PADDING 19.0f
-#define ACCESSORY_PADDING 45.0f
+#define VERTICAL_PADDING 15.0f
+#define ACCESSORY_PADDING 0.0f
 #define TITLE_FONT_SIZE 19.0f
 #define DETAIL_FONT_SIZE 13.0f
 #define ANIMATION_DURATION 0.3f
@@ -284,13 +290,14 @@ static BOOL isRtl = NO; // keep rtl property here - danielgindi@gmail.com
 		dropdown.isView = YES;
 	}
 
-	if (currentDropdown) // add to queue - danielgindi@gmail.com
+	if ((viewQueue && [viewQueue count] > 0) || (isQueuing && currentDropdown)) // add to queue - danielgindi@gmail.com
 	{
-		if (!yrQueue) yrQueue = [NSMutableArray array];
-		[yrQueue addObject:dropdown];
+		if (!viewQueue) viewQueue = [NSMutableArray array];
+		[viewQueue addObject:dropdown];
 	}
 	else
 	{
+		[currentDropdown hide:currentDropdown.shouldAnimate];
 		currentDropdown = dropdown;
 	}
 	dropdown.titleText = title;
@@ -435,11 +442,11 @@ static BOOL isRtl = NO; // keep rtl property here - danielgindi@gmail.com
 {
     [self removeFromSuperview];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    currentDropdown = nil;
-    if (yrQueue.count) // no need for nil check
+    
+    if (viewQueue.count && currentDropdown == self) // no need for nil check
     {
-        currentDropdown = [yrQueue objectAtIndex:0];
-        [yrQueue removeObjectAtIndex:0];
+        currentDropdown = [viewQueue objectAtIndex:0];
+        [viewQueue removeObjectAtIndex:0];
 		[YRDropdownView presentDropdown:currentDropdown];
     }
 }
@@ -514,11 +521,12 @@ static BOOL isRtl = NO; // keep rtl property here - danielgindi@gmail.com
 		}
 		self.accessoryView.frame = rc;
 		
-		[self.titleLabel sizeToFitFixedWidth:bounds.size.width - ACCESSORY_PADDING - (HORIZONTAL_PADDING * 2)];
+		CGFloat padding = self.accessoryView.frame.origin.x + self.accessoryView.frame.size.width + ACCESSORY_PADDING;
 		
 		if ([self.titleLabel.text length] > 0) {
+			[self.titleLabel sizeToFitFixedWidth:bounds.size.width - padding - (HORIZONTAL_PADDING * 2)];
 			rc = self.titleLabel.frame;
-			rc.origin.x = rc.origin.x + ACCESSORY_PADDING;
+			rc.origin.x = rc.origin.x + padding;
 			if (isRtl) 
 			{
 				rc.origin.x =  bounds.size.width - rc.origin.x - rc.size.width;
@@ -527,9 +535,9 @@ static BOOL isRtl = NO; // keep rtl property here - danielgindi@gmail.com
 		}
 		
 		if ([self.detailLabel.text length] > 0) {
-			[self.detailLabel sizeToFitFixedWidth:bounds.size.width - ACCESSORY_PADDING - (HORIZONTAL_PADDING * 2)];
+			[self.detailLabel sizeToFitFixedWidth:bounds.size.width - padding - (HORIZONTAL_PADDING * 2)];
 			rc = self.detailLabel.frame;
-			rc.origin.x = rc.origin.x + ACCESSORY_PADDING;
+			rc.origin.x = rc.origin.x + padding;
 			if (isRtl)
 			{
 				rc.origin.x =  bounds.size.width - rc.origin.x - rc.size.width;
@@ -540,11 +548,14 @@ static BOOL isRtl = NO; // keep rtl property here - danielgindi@gmail.com
 		[self addSubview:self.accessoryView];
 	}
 
-	CGFloat dropdownHeight = 44.0f;
-	if (self.detailText) {
+	CGFloat dropdownHeight = 29.0f;
+	if ([self.detailText length] > 0) {
 		dropdownHeight = MAX(CGRectGetMaxY(bounds), CGRectGetMaxY(self.detailLabel.frame));
-		dropdownHeight += VERTICAL_PADDING;
-	} 
+	}
+	if (self.accessoryView) {
+		dropdownHeight = MAX(dropdownHeight, CGRectGetMaxY(self.accessoryView.frame));
+	}
+	dropdownHeight += VERTICAL_PADDING;
 	self.dropdownHeight = dropdownHeight;
 
 	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];

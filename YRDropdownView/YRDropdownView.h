@@ -52,7 +52,8 @@
 + (BOOL)hideDropdownInView:(UIView *)view animated:(BOOL)animated;
 
 + (void)presentDropdown:(YRDropdownView *)dropdownView;
-+ (void)setRtl:(BOOL)rtl;
++ (void)toggleRtl:(BOOL)rtl;
++ (void)toggleQueuing:(BOOL)queuing;
 
 #pragma mark - Methods
 - (void)show:(BOOL)animated;
