@@ -44,12 +44,15 @@
 }
 
 - (IBAction)showInWindow:(id)sender {
-    [YRDropdownView showDropdownInView:self.view.window 
-                               title:@"Warning" 
-                              detail:nil
-                               image:nil
-                            animated:NO
-                           hideAfter:0.0];
+	UIActivityIndicatorView *accessoryView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+	[accessoryView startAnimating];
+	
+    [YRDropdownView showDropdownInView:self.view.window
+								 title:@"Warning"
+								detail:@"Loading"
+						 accessoryView:accessoryView
+							  animated:NO
+							 hideAfter:0.0];
 }
 
 - (IBAction)hide:(id)sender {
