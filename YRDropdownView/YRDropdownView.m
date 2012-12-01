@@ -19,7 +19,7 @@
 - (void)sizeToFitFixedWidth:(CGFloat)fixedWidth
 {
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, fixedWidth, 0);
-    self.lineBreakMode = UILineBreakModeWordWrap;
+    self.lineBreakMode = NSLineBreakByWordWrapping;
     self.numberOfLines = 0;
     [self sizeToFit];
 }
@@ -161,7 +161,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
         self.detailLabel = [[UILabel alloc] initWithFrame:self.bounds];
         if (isRtl)
         {
-            self.titleLabel.textAlignment = self.detailLabel.textAlignment = UITextAlignmentRight;
+            self.titleLabel.textAlignment = self.detailLabel.textAlignment = NSTextAlignmentRight;
         }
         
         self.backgroundColors = [NSMutableArray arrayWithObjects:[UIColor colorWithRed:0.969 green:0.859 blue:0.475 alpha:1.000], [UIColor colorWithRed:0.937 green:0.788 blue:0.275 alpha:1.000], nil];
