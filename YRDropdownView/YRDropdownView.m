@@ -155,7 +155,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
         self.detailText = nil;
         self.minHeight = 44.0f;
         
-        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
         self.titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
         self.detailLabel = [[UILabel alloc] initWithFrame:self.bounds];
@@ -550,7 +550,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
 
 	CGFloat dropdownHeight = 29.0f;
 	if ([self.detailText length] > 0) {
-		dropdownHeight = MAX(CGRectGetMaxY(bounds), CGRectGetMaxY(self.detailLabel.frame));
+		dropdownHeight = CGRectGetMaxY(self.detailLabel.frame);
 	}
 	if (self.accessoryView) {
 		dropdownHeight = MAX(dropdownHeight, CGRectGetMaxY(self.accessoryView.frame));
@@ -562,10 +562,6 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
 	BOOL rotated = UIInterfaceOrientationIsLandscape(orientation) && !self.isView;
 
 	[self setFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, rotated?dropdownHeight:self.frame.size.width, rotated?self.frame.size.height:dropdownHeight)];
-
-	self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | (self.detailText?UIViewAutoresizingFlexibleBottomMargin:0);
-	self.detailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin;
-	self.accessoryView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
 
 	[self flipViewToOrientation:nil];
 }
