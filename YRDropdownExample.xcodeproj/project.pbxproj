@@ -18,6 +18,7 @@
 		2D5FCB5D14D30C2C00DA334B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5FCB5C14D30C2C00DA334B /* AppDelegate.m */; };
 		2D5FCB6014D30C2C00DA334B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5FCB5F14D30C2C00DA334B /* ViewController.m */; };
 		2D5FCB6314D30C2C00DA334B /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D5FCB6114D30C2C00DA334B /* ViewController.xib */; };
+		6FCEBBC8166A4C520024C5CC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6FCEBBC7166A4C520024C5CC /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		2D5FCB5F14D30C2C00DA334B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2D5FCB6214D30C2C00DA334B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		2D5FCB7214D321BC00DA334B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6FCEBBC7166A4C520024C5CC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 		2D5FCB3D14D30C2B00DA334B = {
 			isa = PBXGroup;
 			children = (
+				6FCEBBC7166A4C520024C5CC /* Default-568h@2x.png */,
 				2D5FCB5214D30C2C00DA334B /* YRDropdownExample */,
 				2D5FCB4B14D30C2C00DA334B /* Frameworks */,
 				2D5FCB4914D30C2B00DA334B /* Products */,
@@ -182,6 +185,7 @@
 				2D5FCB6314D30C2C00DA334B /* ViewController.xib in Resources */,
 				2D3DC25114D73F8E00898E62 /* dropdown-alert@2x.png in Resources */,
 				2D3DC25214D73F8E00898E62 /* dropdown-alert.png in Resources */,
+				6FCEBBC8166A4C520024C5CC /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
