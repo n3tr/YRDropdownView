@@ -55,25 +55,6 @@
 
 @implementation YRDropdownView
 
-@synthesize minHeight = _minHeight;
-@synthesize onTouch = _onTouch;
-@synthesize shouldAnimate = _shouldAnimate;
-@synthesize backgroundColors = _backgroundColors;
-@synthesize backgroundColorPositions = _backgroundColorPositions;
-@synthesize titleTextColor = _titleTextColor;
-@synthesize textColor = _textColor;
-@synthesize titleTextShadowColor = _titleTextShadowColor;
-@synthesize textShadowColor = _textShadowColor;
-
-@synthesize titleLabel = _titleLabel;
-@synthesize detailLabel = _detailLabel;
-@synthesize accessoryView = _accessoryView;
-
-@synthesize parentView = _parentView;
-@synthesize hideAfter = _hideAfter;
-@synthesize isView = _isView;
-@synthesize dropdownHeight = _dropdownHeight;
-
 //Using this prevents two alerts to ever appear on the screen at the same time
 static YRDropdownView *currentDropdown = nil;
 static NSMutableArray *viewQueue = nil; // for queuing - danielgindi@gmail.com
