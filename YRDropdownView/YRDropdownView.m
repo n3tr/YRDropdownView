@@ -30,8 +30,8 @@
 @property (nonatomic) float minHeight;
 @property (nonatomic) SEL onTouch;
 @property (nonatomic) BOOL shouldAnimate;
-@property (nonatomic, strong) NSMutableArray * backgroundColors;
-@property (nonatomic, strong) NSMutableArray * backgroundColorPositions;
+@property (nonatomic, strong) NSArray * backgroundColors;
+@property (nonatomic, strong) NSArray * backgroundColorPositions;
 @property (nonatomic, strong) UIColor * titleTextColor;
 @property (nonatomic, strong) UIColor * textColor;
 @property (nonatomic, strong) UIColor * titleTextShadowColor;
@@ -46,6 +46,7 @@
 @property (nonatomic) BOOL isView;
 @property (nonatomic) float dropdownHeight;
 
++ (UIImageView *)imageViewWithImage:(UIImage *)image;
 - (void)updateTitleLabel:(NSString *)newText;
 - (void)updateDetailLabel:(NSString *)newText;
 - (void)hideWithAnimation:(NSNumber *)animated;
@@ -145,8 +146,8 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
             self.titleLabel.textAlignment = self.detailLabel.textAlignment = NSTextAlignmentRight;
         }
         
-        self.backgroundColors = [NSMutableArray arrayWithObjects:[UIColor colorWithRed:0.969 green:0.859 blue:0.475 alpha:1.000], [UIColor colorWithRed:0.937 green:0.788 blue:0.275 alpha:1.000], nil];
-        self.backgroundColorPositions = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:0.0f], [NSNumber numberWithFloat:1.0f], nil];
+        self.backgroundColors = [NSArray arrayWithObjects:[UIColor colorWithRed:0.969 green:0.859 blue:0.475 alpha:1.000], [UIColor colorWithRed:0.937 green:0.788 blue:0.275 alpha:1.000], nil];
+        self.backgroundColorPositions = [NSArray arrayWithObjects:[NSNumber numberWithFloat:0.0f], [NSNumber numberWithFloat:1.0f], nil];
         
         self.titleTextColor = [UIColor colorWithWhite:0.225f alpha:1.0f];
         self.textColor = self.titleTextColor;
@@ -223,22 +224,43 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
 
 #pragma mark - Class methods
 #pragma mark View Methods
-+ (YRDropdownView *)showDropdownInView:(UIView *)view title:(NSString *)title
+
++ (UIImageView *)imageViewWithImage:(UIImage *)image
+{
+	UIImageView *imageView = nil;
+	if (image) {
+		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, image.size.width, image.size.height)];
+		imageView.image = image;
+	}
+	return imageView;
+}
+
++ (YRDropdownView *)showDropdownInView:(UIView *)view
+								 title:(NSString *)title
 {
     return [YRDropdownView showDropdownInView:view title:title detail:nil];
 }
 
-+ (YRDropdownView *)showDropdownInView:(UIView *)view title:(NSString *)title detail:(NSString *)detail
++ (YRDropdownView *)showDropdownInView:(UIView *)view
+								 title:(NSString *)title
+								detail:(NSString *)detail
 {
     return [YRDropdownView showDropdownInView:view title:title detail:detail image:nil animated:YES];
 }
 
-+ (YRDropdownView *)showDropdownInView:(UIView *)view title:(NSString *)title detail:(NSString *)detail animated:(BOOL)animated
++ (YRDropdownView *)showDropdownInView:(UIView *)view
+								 title:(NSString *)title
+								detail:(NSString *)detail
+							  animated:(BOOL)animated
 {
     return [YRDropdownView showDropdownInView:view title:title detail:detail image:nil animated:animated hideAfter:0.0];
 }
 
-+ (YRDropdownView *)showDropdownInView:(UIView *)view title:(NSString *)title detail:(NSString *)detail image:(UIImage *)image animated:(BOOL)animated
++ (YRDropdownView *)showDropdownInView:(UIView *)view
+								 title:(NSString *)title
+								detail:(NSString *)detail
+								 image:(UIImage *)image
+							  animated:(BOOL)animated
 {
     return [YRDropdownView showDropdownInView:view title:title detail:detail image:image animated:animated hideAfter:0.0];
 }
@@ -250,18 +272,39 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
                           animated:(BOOL)animated
                          hideAfter:(float)delay
 {
-	UIImageView *accessoryImageView = nil;
-	if (image) {
-		accessoryImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, image.size.width, image.size.height)];
-		accessoryImageView.image = image;
-	}
-	return [YRDropdownView showDropdownInView:view title:title detail:detail accessoryView:accessoryImageView animated:animated hideAfter:delay];
+	UIImageView *accessoryView = [self imageViewWithImage:image];
+	return [YRDropdownView showDropdownInView:view title:title detail:detail accessoryView:accessoryView animated:animated hideAfter:delay];
+}
+
++ (YRDropdownView *)showDropdownInView:(UIView *)view
+                                 title:(NSString *)title
+                                detail:(NSString *)detail
+								 image:(UIImage *)image
+							 textColor:(UIColor *)textColor
+					   backgroundColor:(UIColor *)bgColor
+                              animated:(BOOL)animated
+                             hideAfter:(float)delay
+{
+	UIImageView *accessoryView = [self imageViewWithImage:image];
+	return [YRDropdownView showDropdownInView:view title:title detail:detail accessoryView:accessoryView textColor:textColor backgroundColor:bgColor animated:animated hideAfter:delay];
 }
 
 + (YRDropdownView *)showDropdownInView:(UIView *)view
                                  title:(NSString *)title
                                 detail:(NSString *)detail
 						 accessoryView:(UIView *)accessoryView
+                              animated:(BOOL)animated
+                             hideAfter:(float)delay
+{
+	return [YRDropdownView showDropdownInView:view title:title detail:detail accessoryView:accessoryView textColor:nil backgroundColor:nil animated:animated hideAfter:delay];
+}
+
++ (YRDropdownView *)showDropdownInView:(UIView *)view
+                                 title:(NSString *)title
+                                detail:(NSString *)detail
+						 accessoryView:(UIView *)accessoryView
+							 textColor:(UIColor *)textColor
+					   backgroundColor:(UIColor *)bgColor
                               animated:(BOOL)animated
                              hideAfter:(float)delay
 {
@@ -289,6 +332,15 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
 
 	if (accessoryView) {
 		dropdown.accessoryView = accessoryView;
+	}
+	
+	if (textColor) {
+		dropdown.textColor = textColor;
+		dropdown.titleTextColor = textColor;
+	}
+	
+	if (bgColor) {
+		dropdown.backgroundColors = [NSArray arrayWithObjects:bgColor, bgColor, nil];
 	}
 
 	dropdown.shouldAnimate = animated;

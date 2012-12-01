@@ -44,7 +44,25 @@
 + (YRDropdownView *)showDropdownInView:(UIView *)view
                                  title:(NSString *)title
                                 detail:(NSString *)detail
+                                 image:(UIImage *)image
+							 textColor:(UIColor *)textColor
+					   backgroundColor:(UIColor *)bgColor
+							  animated:(BOOL)animated
+                             hideAfter:(float)delay;
+
++ (YRDropdownView *)showDropdownInView:(UIView *)view
+                                 title:(NSString *)title
+                                detail:(NSString *)detail
 						 accessoryView:(UIView *)accessoryView
+                              animated:(BOOL)animated
+                             hideAfter:(float)delay;
+
++ (YRDropdownView *)showDropdownInView:(UIView *)view
+                                 title:(NSString *)title
+                                detail:(NSString *)detail
+						 accessoryView:(UIView *)accessoryView
+							 textColor:(UIColor *)textColor
+					   backgroundColor:(UIColor *)bgColor
                               animated:(BOOL)animated
                              hideAfter:(float)delay;
 
