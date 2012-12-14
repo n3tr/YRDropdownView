@@ -271,6 +271,7 @@
 		2D5FCB6714D30C2C00DA334B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "YRDropdownExample/YRDropdownExample-Prefix.pch";
 				INFOPLIST_FILE = "YRDropdownExample/YRDropdownExample-Info.plist";
@@ -282,6 +283,7 @@
 		2D5FCB6814D30C2C00DA334B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "YRDropdownExample/YRDropdownExample-Prefix.pch";
 				INFOPLIST_FILE = "YRDropdownExample/YRDropdownExample-Info.plist";

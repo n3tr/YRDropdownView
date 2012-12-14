@@ -9,5 +9,5 @@ Pod::Spec.new do |s|
   s.source   = { :git => 'https://github.com/iOctocat/YRDropdownView.git', :tag => 'v0.0.3' }
   s.source_files = 'YRDropdownView/*.{h,m}'
   s.resources    = 'YRDropdownView/*.png'
-  s.requires_arc = false
+  s.requires_arc = true
 end
