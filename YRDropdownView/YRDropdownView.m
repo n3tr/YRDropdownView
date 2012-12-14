@@ -146,8 +146,8 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
             self.titleLabel.textAlignment = self.detailLabel.textAlignment = NSTextAlignmentRight;
         }
         
-        self.backgroundColors = [NSArray arrayWithObjects:[UIColor colorWithRed:0.969 green:0.859 blue:0.475 alpha:1.000], [UIColor colorWithRed:0.937 green:0.788 blue:0.275 alpha:1.000], nil];
-        self.backgroundColorPositions = [NSArray arrayWithObjects:[NSNumber numberWithFloat:0.0f], [NSNumber numberWithFloat:1.0f], nil];
+        self.backgroundColors = @[[UIColor colorWithRed:0.969 green:0.859 blue:0.475 alpha:1.000], [UIColor colorWithRed:0.937 green:0.788 blue:0.275 alpha:1.000]];
+        self.backgroundColorPositions = @[@0.0f, @1.0f];
         
         self.titleTextColor = [UIColor colorWithWhite:0.225f alpha:1.0f];
         self.textColor = self.titleTextColor;
@@ -184,8 +184,8 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
     NSMutableArray * gradientColors = [NSMutableArray array];
     for (NSUInteger j=0,len = self.backgroundColors.count; j<len; j++)
     {
-        [gradientColors addObject:(id)(((UIColor*)[self.backgroundColors objectAtIndex:j]).CGColor)];
-        n = [self.backgroundColorPositions objectAtIndex:j];
+        [gradientColors addObject:(id)(((UIColor*)(self.backgroundColors)[j]).CGColor)];
+        n = (self.backgroundColorPositions)[j];
         if (n) gradientLocations[j] = [n floatValue];
         else gradientLocations[j] = j==0?0.0f:1.0f;
     }
@@ -340,7 +340,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
 	}
 	
 	if (bgColor) {
-		dropdown.backgroundColors = [NSArray arrayWithObjects:bgColor, bgColor, nil];
+		dropdown.backgroundColors = @[bgColor, bgColor];
 	}
 
 	dropdown.shouldAnimate = animated;
@@ -394,7 +394,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
 	[dropdownView show:dropdownView.shouldAnimate];
 	if (dropdownView.hideAfter != 0.0)
 	{
-		[dropdownView performSelector:@selector(hideWithAnimation:) withObject:[NSNumber numberWithBool:dropdownView.shouldAnimate] afterDelay:dropdownView.hideAfter+ANIMATION_DURATION];
+		[dropdownView performSelector:@selector(hideWithAnimation:) withObject:@(dropdownView.shouldAnimate) afterDelay:dropdownView.hideAfter+ANIMATION_DURATION];
 	}
 	[[NSNotificationCenter defaultCenter] addObserver:dropdownView selector:@selector(flipViewToOrientation:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 	[dropdownView flipViewToOrientation:nil];
@@ -437,7 +437,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
 
 - (void)hide:(BOOL)animated
 {
-	[self hideWithAnimation:[NSNumber numberWithBool:animated]];
+	[self hideWithAnimation:@(animated)];
 }
 
 - (void)hideWithAnimation:(NSNumber *)animated {
@@ -478,7 +478,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
     
     if (viewQueue.count && currentDropdown == self) // no need for nil check
     {
-        currentDropdown = [viewQueue objectAtIndex:0];
+        currentDropdown = viewQueue[0];
         [viewQueue removeObjectAtIndex:0];
 		[YRDropdownView presentDropdown:currentDropdown];
     }

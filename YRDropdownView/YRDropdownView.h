@@ -11,8 +11,8 @@
 
 @interface YRDropdownView : UIView
 
-@property (nonatomic, readonly) NSString *titleText;
-@property (nonatomic, readonly) NSString *detailText;
+@property (weak, nonatomic, readonly) NSString *titleText;
+@property (weak, nonatomic, readonly) NSString *detailText;
 
 #pragma mark - View methods
 
