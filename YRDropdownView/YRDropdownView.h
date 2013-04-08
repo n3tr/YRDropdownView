@@ -25,7 +25,6 @@ typedef void (^YRTapBlock)(void);
 
 @property (nonatomic) float hideAfter;
 @property (nonatomic, copy) YRTapBlock tapBlock;
-@property (nonatomic, assign) dispatch_queue_t tapQueue;
 
 #pragma mark - View methods
 
