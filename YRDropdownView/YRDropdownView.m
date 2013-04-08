@@ -316,6 +316,10 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
 	[dropdownView flipViewToOrientation:nil];
 }
 
++ (BOOL)isCurrentlyShowing {
+    return currentDropdown != nil;
+}
+
 #pragma mark - Methods
 
 - (void)show:(BOOL)animated
@@ -397,6 +401,10 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
         currentDropdown = viewQueue[0];
         [viewQueue removeObjectAtIndex:0];
 		[YRDropdownView presentDropdown:currentDropdown];
+    }
+    else
+    {
+        currentDropdown = nil;
     }
 }
 
