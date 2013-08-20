@@ -148,10 +148,11 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
         self.textShadowColor = self.titleTextShadowColor;
         
         // Gentle shadow settings. Path will be set up live, in [layoutSubviews] - danielgindi@gmail.com
-        self.layer.shadowOffset = CGSizeMake(0, 1);
-        self.layer.shadowRadius = 1.0f;
-        self.layer.shadowColor = [UIColor colorWithWhite:0.450f alpha:1.0f].CGColor;
-        self.layer.shadowOpacity = 1.0f;
+        // Comment lines below for performance on older device ( < i5 ).
+//        self.layer.shadowOffset = CGSizeMake(0, 1);
+//        self.layer.shadowRadius = 1.0f;
+//        self.layer.shadowColor = [UIColor colorWithWhite:0.450f alpha:1.0f].CGColor;
+//        self.layer.shadowOpacity = 1.0f;
         
         self.accessoryView = nil;
         
@@ -378,10 +379,10 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
                                                      self.frame.size.height);
                          }
                          completion:^(BOOL finished) {
-                             if (finished)
-                             {
+//                             if (finished)
+//                             {
                                  [self done];
-                             }
+//                             }
                          }];
     }
     else
