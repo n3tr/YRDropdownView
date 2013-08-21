@@ -23,7 +23,15 @@ typedef void (^YRTapBlock)(void);
 @property (nonatomic, strong) UIColor * textColor;
 @property (nonatomic, strong) UIColor * titleTextShadowColor;
 @property (nonatomic, strong) UIColor * textShadowColor;
+@property (nonatomic, assign) CGFloat titleFontSize;
+@property (nonatomic, assign) CGFloat detailFontSize;
 
+@property(nonatomic,strong)UILabel *titleLabel;
+@property(nonatomic,strong)UILabel *detailLabel;
+@property(nonatomic,strong)UIView *accessoryView;
+
+
+@property (nonatomic, assign) BOOL dismissOnTap;
 
 @property (nonatomic) float hideAfter;
 @property (nonatomic, copy) YRTapBlock tapBlock;

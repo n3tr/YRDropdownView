@@ -24,9 +24,7 @@
 @property(nonatomic)float minHeight;
 @property(nonatomic)SEL onTouch;
 @property(nonatomic)BOOL shouldAnimate;
-@property(nonatomic,strong)UILabel *titleLabel;
-@property(nonatomic,strong)UILabel *detailLabel;
-@property(nonatomic,strong)UIView *accessoryView;
+
 @property(nonatomic,assign)dispatch_queue_t tapQueue;
 @property(nonatomic,unsafe_unretained) UIView *parentView;
 @property(nonatomic)BOOL isView;
@@ -39,6 +37,15 @@
 - (void)done;
 @end
 
+
+#pragma mark - Defines
+
+#define HORIZONTAL_PADDING 12.0f
+#define VERTICAL_PADDING 15.0f
+#define ACCESSORY_PADDING 0.0f
+#define TITLE_FONT_SIZE 18.0f
+#define DETAIL_FONT_SIZE 13.0f
+#define ANIMATION_DURATION 0.3f
 
 @implementation YRDropdownView
 
@@ -128,8 +135,10 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
         self.clearsContextBeforeDrawing = NO;
         self.titleText = nil;
         self.detailText = nil;
-        self.minHeight = 44.0f;
-        
+        self.minHeight = 24.0f;
+        self.titleFontSize = TITLE_FONT_SIZE;
+        self.detailFontSize = DETAIL_FONT_SIZE;
+        self.dismissOnTap = YES;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
         self.titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
@@ -207,14 +216,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
     [super drawRect:rect]; // I do not know if previous iOS versions depend on that for drawing subviews, or they do it on the CALayer level anyways.
 }
 
-#pragma mark - Defines
 
-#define HORIZONTAL_PADDING 15.0f
-#define VERTICAL_PADDING 15.0f
-#define ACCESSORY_PADDING 0.0f
-#define TITLE_FONT_SIZE 18.0f
-#define DETAIL_FONT_SIZE 13.0f
-#define ANIMATION_DURATION 0.3f
 
 #pragma mark - Class methods
 #pragma mark View Methods
@@ -231,7 +233,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
 
 + (YRDropdownView *)dropdownInView:(UIView *)view title:(NSString *)title detail:(NSString *)detail accessoryView:(UIView *)accessoryView animated:(BOOL)animated
 {
-	YRDropdownView *dropdown = [[YRDropdownView alloc] initWithFrame:CGRectMake(0, 0, view.bounds.size.width, 44)];
+	YRDropdownView *dropdown = [[YRDropdownView alloc] initWithFrame:CGRectMake(0, 0, view.bounds.size.width, 24)];
 	if (![view isKindOfClass:[UIWindow class]])
 	{
 		dropdown.isView = YES;
@@ -414,7 +416,9 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
     if (self.tapBlock) {
         dispatch_async(self.tapQueue, self.tapBlock);
     }
-    [self hide:self.shouldAnimate];
+    if (self.dismissOnTap) {
+        [self hide:self.shouldAnimate];
+    }
 }
 
 #pragma mark - Layout
@@ -425,7 +429,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
     
 	// Set label properties
 	if ([self.titleText length] > 0) {
-		self.titleLabel.font = [UIFont boldSystemFontOfSize:TITLE_FONT_SIZE];
+		self.titleLabel.font = [UIFont boldSystemFontOfSize:_titleFontSize];
 		self.titleLabel.adjustsFontSizeToFitWidth = NO;
 		self.titleLabel.opaque = NO;
 		self.titleLabel.backgroundColor = [UIColor clearColor];
@@ -442,7 +446,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
 	}
     
 	if ([self.detailText length] > 0) {
-		self.detailLabel.font = [UIFont systemFontOfSize:DETAIL_FONT_SIZE];
+		self.detailLabel.font = [UIFont systemFontOfSize:_detailFontSize];
 		self.detailLabel.numberOfLines = 0;
 		self.detailLabel.adjustsFontSizeToFitWidth = NO;
 		self.detailLabel.opaque = NO;
@@ -509,7 +513,7 @@ static BOOL isQueuing = NO; // keep queuing property here - gregwym
 		[self addSubview:self.accessoryView];
 	}
     
-	CGFloat dropdownHeight = 29.0f;
+	CGFloat dropdownHeight = 20.0f;
 	if ([self.detailText length] > 0) {
 		dropdownHeight = CGRectGetMaxY(self.detailLabel.frame);
 	}

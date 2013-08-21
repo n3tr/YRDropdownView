@@ -35,8 +35,14 @@
 }
 
 - (IBAction)showInView:(id)sender {
-    YRDropdownView *dropdown = [YRDropdownView dropdownInView:demoView title:@"Warning" detail:@"Me too! I want to try a really long detail message to see how it handles the line breaks and what not. Here's to hoping it works right the first time!" image:[UIImage imageNamed:@"dropdown-alert"] animated:YES];
+    YRDropdownView *dropdown = [YRDropdownView dropdownInView:demoView title:@"Test" detail:@"TEsTStsjf  sijfios fsdoi fjsidf jsdiofjiosjfosjoi dsjfosj oifjsosejfos jfisdof siodfodsfoidso" image:[UIImage imageNamed:@"dropdown-alert.png"] animated:YES];
     dropdown.hideAfter = 3;
+    dropdown.backgroundColors = @[[UIColor darkGrayColor],[UIColor blackColor]];
+    dropdown.titleTextColor = [UIColor whiteColor];
+    dropdown.titleTextShadowColor = [UIColor clearColor];
+    dropdown.titleFontSize = 14.0f;
+    dropdown.titleLabel.textAlignment = NSTextAlignmentCenter;
+    dropdown.dismissOnTap = NO;
     [YRDropdownView presentDropdown:dropdown];
 }
 
